@@ -1,0 +1,17 @@
+[
+  {"id": 1, "name": "General", "section": 0, "modules": [
+    {"id": 500, "name": "Avisos", "modname": "forum", "modplural": "Foros", "visible": 1, "uservisible": true, "url": "{BASE}/mod/forum/view.php?id=500"},
+    {"id": 501, "name": "Bienvenida", "modname": "label", "modplural": "Etiquetas", "visible": 1, "uservisible": true}
+  ]},
+  {"id": 2, "name": "Unidad 1", "section": 1, "modules": [
+    {"id": 510, "name": "Guía 1", "modname": "resource", "modplural": "Archivos", "visible": 1, "uservisible": true, "url": "{BASE}/mod/resource/view.php?id=510",
+     "contents": [{"type": "file", "filename": "Guía 1.pdf", "filepath": "/", "filesize": 1500, "fileurl": "{BASE}/webservice/pluginfile.php/10/mod_resource/content/2/Gu%C3%ADa%201.pdf?forcedownload=1", "timecreated": 1760000000, "timemodified": 1761000000, "mimetype": "application/pdf"}]},
+    {"id": 515, "name": "Guía 2", "modname": "resource", "modplural": "Archivos", "visible": 1, "uservisible": true, "url": "{BASE}/mod/resource/view.php?id=515",
+     "contents": [{"type": "file", "filename": "Guía 2.pdf", "filepath": "/", "filesize": 900, "fileurl": "{BASE}/webservice/pluginfile.php/12/mod_resource/content/1/Gu%C3%ADa%202.pdf?forcedownload=1", "timemodified": 1761000000, "mimetype": "application/pdf"}]},
+    {"id": 512, "name": "Tarea 1", "modname": "assign", "modplural": "Tareas", "visible": 1, "uservisible": true},
+    {"id": 513, "name": "Borrador oculto", "modname": "resource", "visible": 0, "uservisible": false,
+     "contents": [{"type": "file", "filename": "oculto.pdf", "filepath": "/", "filesize": 1, "fileurl": "{BASE}/webservice/pluginfile.php/13/x/oculto.pdf", "timemodified": 1760000000}]},
+    {"id": 514, "name": "Control 1", "modname": "quiz", "modplural": "Cuestionarios", "visible": 1, "uservisible": true, "url": "{BASE}/mod/quiz/view.php?id=514",
+     "dates": [{"label": "Cierre:", "timestamp": 1762000000, "dataid": "timeclose"}]}
+  ]}
+]

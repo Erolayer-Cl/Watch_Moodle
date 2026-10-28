@@ -1,0 +1,31 @@
+# Rust (CLI y núcleo)
+/target/
+
+# Descargas a medio terminar
+*.part
+
+# Scripts Python antiguos: quedan solo en este equipo
+/legacy/
+__pycache__/
+*.pyc
+
+# Futura app de escritorio (Tauri + Svelte)
+node_modules/
+/desktop/dist/
+/desktop/build/
+/desktop/.svelte-kit/
+/desktop/src-tauri/target/
+/desktop/src-tauri/gen/schemas/
+
+# Claude Code: memoria y ajustes locales
+.claude/
+CLAUDE.local.md
+MEMORY.md
+/memory/
+
+# Entorno local y editores
+.env
+.env.*
+.DS_Store
+.idea/
+*.swp

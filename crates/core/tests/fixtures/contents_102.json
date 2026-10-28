@@ -1,0 +1,3 @@
+[{"id": 3, "name": "", "section": 0, "modules": [
+  {"id": 600, "name": "Consultas", "modname": "forum", "modplural": "Foros", "visible": 1, "uservisible": true, "url": "{BASE}/mod/forum/view.php?id=600"}
+]}]

@@ -1,0 +1,24 @@
+[package]
+name = "revision-core"
+description = "Núcleo de Revisión: cliente de Moodle, detección de novedades y descargas"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+directories = "5"
+futures.workspace = true
+keyring = { version = "3", features = ["apple-native", "windows-native", "sync-secret-service", "crypto-rust"] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "stream", "http2", "charset"] }
+rusqlite = { version = "0.32", features = ["bundled"] }
+serde.workspace = true
+serde_json.workspace = true
+thiserror = "2"
+tokio = { workspace = true, features = ["fs", "io-util"] }
+toml = "0.8"
+
+[dev-dependencies]
+tempfile = "3"
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+wiremock = "0.6"

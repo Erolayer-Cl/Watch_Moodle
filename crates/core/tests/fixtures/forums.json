@@ -1,0 +1,4 @@
+[
+  {"id": 900, "course": 101, "type": "news", "name": "Avisos", "cmid": 500},
+  {"id": 901, "course": 102, "type": "general", "name": "Consultas", "cmid": 600}
+]

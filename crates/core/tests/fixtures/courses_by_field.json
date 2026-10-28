@@ -1,0 +1,4 @@
+{"courses": [
+  {"id": 101, "fullname": "Cálculo II", "contacts": [{"id": 3, "fullname": "Ana Rojas"}]},
+  {"id": 102, "fullname": "Física I", "contacts": [{"id": 4, "fullname": "Pedro Soto"}]}
+], "warnings": []}

@@ -1,0 +1,8 @@
+{"courses": [
+  {"id": 101, "fullname": "Cálculo II", "shortname": "MAT1620", "timemodified": 1, "assignments": [
+    {"id": 300, "cmid": 512, "course": 101, "name": "Tarea 1", "nosubmissions": 0, "duedate": 4102444800, "allowsubmissionsfromdate": 0, "cutoffdate": 0,
+     "timemodified": 1760000000, "intro": "<p>Resolver los ejercicios 1 al 5.</p>", "introformat": 1,
+     "introattachments": [{"filename": "enunciado.pdf", "filepath": "/", "filesize": 5000, "fileurl": "{BASE}/webservice/pluginfile.php/40/mod_assign/introattachment/0/enunciado.pdf", "timemodified": 1760000000, "mimetype": "application/pdf"}]}
+  ]},
+  {"id": 102, "fullname": "Física I", "shortname": "FIS1510", "timemodified": 1, "assignments": []}
+], "warnings": []}

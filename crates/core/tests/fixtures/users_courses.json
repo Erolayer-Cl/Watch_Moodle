@@ -1,0 +1,4 @@
+[
+  {"id": 101, "shortname": "MAT1620", "fullname": "Cálculo II", "visible": 1, "progress": 40},
+  {"id": 102, "shortname": "FIS1510", "fullname": "Física I", "visible": 1, "progress": null}
+]

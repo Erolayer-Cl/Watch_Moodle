@@ -1,0 +1,20 @@
+[package]
+name = "revision-cli"
+description = "Revisa las novedades de tu aula virtual Moodle desde la terminal"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "revision"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1"
+clap = { version = "4", features = ["derive"] }
+console = "0.15"
+futures.workspace = true
+indicatif = "0.17"
+inquire = "0.7"
+revision-core = { path = "../core" }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }

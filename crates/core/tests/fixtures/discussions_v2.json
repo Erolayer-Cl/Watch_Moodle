@@ -1,0 +1,7 @@
+{"discussions": [
+  {"id": 2, "discussion": 7002, "name": "Cambio de sala", "subject": "Cambio de sala", "message": "<p>La prueba será en la sala <b>B-12</b>.</p>",
+   "userfullname": "Ana Rojas", "created": 1761000000, "modified": 1761000000, "timemodified": 1761000000, "attachment": "1",
+   "attachments": [{"filename": "sala.pdf", "filepath": "/", "filesize": 2048, "fileurl": "{BASE}/webservice/pluginfile.php/30/mod_forum/attachment/2/sala.pdf", "timemodified": 1761000000, "mimetype": "application/pdf"}]},
+  {"id": 1, "discussion": 7001, "name": "Bienvenidos", "subject": "Bienvenidos", "message": "<p>Hola a <b>todos</b>.</p>",
+   "userfullname": "Ana Rojas", "created": 1760000000, "modified": 1760000000, "timemodified": 1760000500, "attachment": "", "attachments": []}
+], "warnings": []}
