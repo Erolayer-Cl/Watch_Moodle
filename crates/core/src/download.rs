@@ -40,17 +40,29 @@ pub fn sanitize_component(name: &str) -> String {
     if trimmed.is_empty() {
         return "_".into();
     }
-    if trimmed.chars().count() <= MAX_NAME {
-        return trimmed.to_string();
+    let name = if is_windows_reserved(trimmed) { format!("_{trimmed}") } else { trimmed.to_string() };
+    if name.chars().count() <= MAX_NAME {
+        return name;
     }
-    match trimmed.rfind('.') {
-        Some(dot) if trimmed.len() - dot <= 10 => {
-            let ext = &trimmed[dot..];
-            let stem: String = trimmed[..dot].chars().take(MAX_NAME - ext.chars().count()).collect();
+    match name.rfind('.') {
+        Some(dot) if name.len() - dot <= 10 => {
+            let ext = &name[dot..];
+            let stem: String = name[..dot].chars().take(MAX_NAME - ext.chars().count()).collect();
             format!("{}{ext}", stem.trim_end())
         }
-        _ => trimmed.chars().take(MAX_NAME).collect(),
+        _ => name.chars().take(MAX_NAME).collect(),
     }
+}
+
+/// Windows no permite archivos con nombre de dispositivo (`CON`, `NUL`, `COM1`…),
+/// ni siquiera con extensión: `con.pdf` tampoco sirve. Se corrige en todos los
+/// sistemas para que los nombres sean iguales en cualquiera.
+fn is_windows_reserved(name: &str) -> bool {
+    let stem = name.split('.').next().unwrap_or_default().trim_end().to_ascii_uppercase();
+    matches!(stem.as_str(), "CON" | "PRN" | "AUX" | "NUL")
+        || (stem.len() == 4
+            && (stem.starts_with("COM") || stem.starts_with("LPT"))
+            && matches!(stem.as_bytes()[3], b'1'..=b'9'))
 }
 
 pub fn target_path(dir: &Path, course: &str, file: &FileRef) -> PathBuf {
@@ -148,6 +160,11 @@ mod tests {
         assert_eq!(sanitize_component(".."), "_");
         assert_eq!(sanitize_component("../../.bashrc"), "_.._.bashrc");
         assert_eq!(sanitize_component("  .oculto. "), "oculto");
+        assert_eq!(sanitize_component("con.pdf"), "_con.pdf");
+        assert_eq!(sanitize_component("NUL"), "_NUL");
+        assert_eq!(sanitize_component("Lpt1.tar.gz"), "_Lpt1.tar.gz");
+        assert_eq!(sanitize_component("console.pdf"), "console.pdf");
+        assert_eq!(sanitize_component("com10.txt"), "com10.txt");
         let long = format!("{}.pdf", "a".repeat(300));
         let short = sanitize_component(&long);
         assert_eq!(short.chars().count(), MAX_NAME);

@@ -1,6 +1,6 @@
 # Revisión
 
-Herramienta de terminal para revisar las novedades de tu **aula virtual Moodle**: archivos nuevos, anuncios y tareas que cambiaron. Te deja **elegir qué archivos descargar**.
+Herramienta de terminal, para Linux y Windows, que revisa las novedades de tu **aula virtual Moodle**: archivos nuevos, anuncios y tareas que cambiaron. Te deja **elegir qué archivos descargar**.
 
 Muchas aulas virtuales no avisan cuando un profesor sube material o mueve una fecha de entrega. Con `revision` lo ves todo de una vez, cuando tú quieras: nada corre en segundo plano.
 
@@ -39,15 +39,33 @@ Cálculo II
 
 - **Tu Moodle debe permitir la app móvil oficial.** Si puedes entrar con la app *Moodle* en el celular, esta herramienta también funciona. Usa la misma API.
 - Inicio de sesión con **usuario y contraseña**. Por ahora no funciona con «Ingresar con Google/Microsoft».
-- [Rust](https://rustup.rs) 1.85 o superior.
-- En Linux, un **llavero del sistema** (GNOME Keyring o KWallet) y las librerías de desarrollo de D-Bus:
+- En Linux, un **llavero del sistema** (GNOME Keyring o KWallet). En Windows se usa el Administrador de credenciales, que ya viene incluido.
+
+Funciona en Linux y Windows (ver [las diferencias en Windows](#uso-en-windows)). En macOS debería funcionar compilándolo, pero no está probado.
+
+## Instalación
+
+### Windows
+
+Descarga `revision.exe` desde [Releases](../../releases). No hay que instalar nada más; en [Uso en Windows](#uso-en-windows) se explica cómo dejarlo como comando.
+
+### Linux
+
+Descarga `revision-linux-x86_64.tar.gz` desde [Releases](../../releases) y descomprímelo en una carpeta de tu `PATH`:
+
+```sh
+tar -xzf revision-linux-x86_64.tar.gz -C ~/.local/bin
+```
+
+### Compilar desde el código
+
+Necesitas [Rust](https://rustup.rs) 1.85 o superior y además:
+
+- En Linux, las librerías de desarrollo de D-Bus:
   - Arch / CachyOS: `sudo pacman -S --needed base-devel pkgconf dbus`
   - Debian / Ubuntu: `sudo apt install build-essential pkg-config libdbus-1-dev`
   - Fedora: `sudo dnf install gcc pkgconf-pkg-config dbus-devel`
-
-Está probado en Linux. En macOS y Windows usa el llavero de cada sistema y debería funcionar, pero no está probado.
-
-## Instalación
+- En Windows, las *Visual Studio C++ Build Tools* (el instalador de Rust ofrece instalarlas).
 
 ```sh
 git clone <URL-de-este-repositorio> revision
@@ -55,7 +73,7 @@ cd revision
 cargo install --path crates/cli
 ```
 
-Esto deja el comando `revision` en `~/.cargo/bin` (asegúrate de tenerlo en el `PATH`).
+Esto deja el comando `revision` en `~/.cargo/bin` (en Windows, `%USERPROFILE%\.cargo\bin`), carpeta que el instalador de Rust agrega al `PATH`.
 
 ## Uso
 
@@ -119,6 +137,8 @@ Opciones útiles:
 | Estado (qué viste, qué descargaste) | `~/.local/share/revision/revision.db` |
 | Contraseña y token | Llavero del sistema, **nunca** en un archivo |
 
+En Windows las rutas son otras: ver [Uso en Windows](#uso-en-windows).
+
 Detalles de las descargas:
 
 - Los archivos de carpetas de Moodle mantienen sus subcarpetas. Los adjuntos de anuncios van a `<curso>/Anuncios/` y los de tareas a `<curso>/Tareas/<tarea>/`.
@@ -137,6 +157,37 @@ courses = ["MAT1620", 1234]      # opcional: revisar solo estos cursos (nombre c
 ```
 
 Si inicias sesión en otra aula virtual, el estado se reinicia y la siguiente revisión vuelve a ser el punto de partida.
+
+## Uso en Windows
+
+Funciona igual que en Linux. Estas son las diferencias.
+
+**Es un programa de terminal.** Úsalo desde Windows Terminal o PowerShell; con doble clic se abre y se cierra al terminar. Para poder escribir `revision` desde cualquier carpeta, ejecuta esto una vez en PowerShell y luego vuelve a abrir la terminal:
+
+```powershell
+New-Item -ItemType Directory -Force $HOME\bin | Out-Null
+Move-Item $HOME\Downloads\revision.exe $HOME\bin\
+[Environment]::SetEnvironmentVariable("Path", [Environment]::GetEnvironmentVariable("Path", "User") + ";$HOME\bin", "User")
+```
+
+Si prefieres no hacerlo, también puedes ejecutarlo desde su carpeta: `.\revision.exe login`.
+
+**Aviso de SmartScreen.** Como el `.exe` no está firmado, la primera vez Windows puede mostrar «Windows protegió su PC». Elige *Más información → Ejecutar de todas formas*.
+
+| Qué | Linux | Windows |
+|---|---|---|
+| Descargas | `~/Moodle/…` | `C:\Users\<tú>\Moodle\…` |
+| Configuración | `~/.config/revision/config.toml` | `%APPDATA%\revision\config\config.toml` |
+| Estado | `~/.local/share/revision/revision.db` | `%APPDATA%\revision\data\revision.db` |
+| Contraseña y token | GNOME Keyring o KWallet | Administrador de credenciales (entradas `token:…` y `password:…`) |
+| Terminal | cualquiera | Windows Terminal; en la antigua `cmd` los símbolos pueden verse mal |
+
+Otras diferencias:
+
+- **Archivos abiertos.** Windows no deja reemplazar un archivo que está abierto. Si vas a descargar la versión nueva de un PDF, ciérralo antes; si no, esa descarga falla con un aviso y las demás siguen.
+- **Rutas en la configuración.** En `config.toml`, escribe las rutas de Windows entre comillas simples para no tener que duplicar las barras: `download_dir = 'D:\Universidad\Moodle'`.
+- **Nombres de archivo.** Windows no acepta algunos nombres (`con`, `nul`, `com1`…) ni caracteres como `:` o `?`. Al descargar se reemplazan (`con.pdf` queda como `_con.pdf`), en todos los sistemas, para que los nombres sean iguales en cualquiera.
+- **Compilarlo en Windows** requiere Rust y las *Visual Studio C++ Build Tools* (varios GB). El `.exe` de Releases ya viene listo y no necesita nada instalado, ni siquiera el *Visual C++ Redistributable*.
 
 ## Seguridad y privacidad
 
@@ -176,6 +227,17 @@ cargo test --workspace                                 # tests (con un Moodle si
 cargo clippy --workspace --all-targets -- -D warnings  # lint
 cargo fmt --all                                        # formato
 cargo run -p revision-cli -- revisar                   # ejecutar sin instalar
+```
+
+### Publicar una versión
+
+Con cada push a `main`, GitHub Actions ([build.yml](.github/workflows/build.yml)) corre los tests y compila en Windows y Linux. El `.exe` queda descargable como artefacto de esa ejecución, útil para probarlo antes de publicar.
+
+Para publicar una versión en Releases con `revision.exe` y el binario de Linux, crea y sube una etiqueta:
+
+```sh
+git tag v0.1.0
+git push origin v0.1.0
 ```
 
 ## Próximamente

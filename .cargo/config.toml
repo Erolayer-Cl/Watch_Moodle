@@ -1,0 +1,4 @@
+# El .exe de Windows incluye el runtime de C, así funciona sin instalar
+# el «Visual C++ Redistributable».
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]
